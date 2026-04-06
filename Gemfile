@@ -57,3 +57,11 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
+
+gem "devise"
+gem "pundit"
+gem "pagy"
+gem "ransack"
+gem "groupdate"
+gem "chartkick"
+gem "money-rails"
