@@ -1,6 +1,6 @@
 class FeedPurchase < ApplicationRecord
   belongs_to :feed_product
-  has_many :feed_consumptions, dependent: :nullify
+  has_many :feed_consumptions, dependent: :restrict_with_exception
 
   validates :purchase_date, presence: true
   validates :quantity_units, numericality: { greater_than: 0 }, allow_nil: true
