@@ -1,0 +1,2 @@
+module MortalityLogsHelper
+end
