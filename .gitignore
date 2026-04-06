@@ -26,3 +26,11 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
