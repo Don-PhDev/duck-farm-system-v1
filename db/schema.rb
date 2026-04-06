@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_150205) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_06_160558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,10 +19,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_150205) do
     t.string "batch_code"
     t.datetime "created_at", null: false
     t.string "duck_type"
+    t.integer "estimated_female_count"
+    t.integer "estimated_male_count"
+    t.integer "estimated_unknown_count"
     t.integer "initial_duck_count"
-    t.integer "initial_female_count"
-    t.integer "initial_male_count"
-    t.integer "initial_unknown_count"
     t.text "notes"
     t.decimal "purchase_price_per_duck"
     t.datetime "updated_at", null: false
