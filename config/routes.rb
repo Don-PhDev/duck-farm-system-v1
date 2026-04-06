@@ -1,27 +1,13 @@
 Rails.application.routes.draw do
-  get "mortality_logs/index"
-  get "mortality_logs/new"
-  get "mortality_logs/create"
-  get "expenses/index"
-  get "expenses/new"
-  get "expenses/create"
-  get "feed_consumptions/index"
-  get "feed_consumptions/new"
-  get "feed_consumptions/create"
-  get "feed_purchases/index"
-  get "feed_purchases/new"
-  get "feed_purchases/create"
-  get "sales/index"
-  get "sales/show"
-  get "sales/new"
-  get "sales/create"
-  get "batches/index"
-  get "batches/show"
-  get "batches/new"
-  get "batches/create"
-  get "batches/edit"
-  get "batches/update"
-  get "dashboard/index"
+  root "dashboard#index"
+
+  resources :batches
+  resources :sales, only: [:index, :show, :new, :create]
+  resources :feed_purchases, only: [:index, :new, :create]
+  resources :feed_consumptions, only: [:index, :new, :create]
+  resources :expenses, only: [:index, :new, :create]
+  resources :mortality_logs, only: [:index, :new, :create]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
