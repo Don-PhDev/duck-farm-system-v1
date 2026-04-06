@@ -1,47 +1,49 @@
 class Batch < ApplicationRecord
-  has_many :sale_items, dependent: :destroy
+  has_many :sale_items, dependent: :restrict_with_exception
   has_many :mortality_logs, dependent: :destroy
   has_many :feed_consumptions, dependent: :destroy
   has_many :expenses, dependent: :nullify
 
+  DUCK_TYPES = %w[PEKN ITIK MSCV].freeze
+
   validates :batch_code, presence: true, uniqueness: true
-  validates :bird_type, presence: true
+  validates :duck_type, presence: true, inclusion: { in: DUCK_TYPES }
   validates :arrival_date, presence: true
-  validates :initial_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :purchase_price_per_head, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :initial_duck_count, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :purchase_price_per_duck, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
-  def total_sold
-    sale_items.sum(:quantity)
+  def ducks_sold
+    sale_items.sum(:duck_count)
   end
 
-  def total_dead
-    mortality_logs.sum(:quantity)
+  def ducks_dead
+    mortality_logs.sum(:duck_count)
   end
 
-  def remaining_quantity
-    initial_quantity - total_sold - total_dead
+  def remaining_ducks
+    initial_duck_count.to_i - ducks_sold - ducks_dead
   end
 
   def female_count
-    initial_female_count.to_i
+    estimated_female_count.to_i
   end
 
   def male_count
-    initial_male_count.to_i
+    estimated_male_count.to_i
   end
 
   def unknown_count
-    initial_unknown_count.to_i
+    estimated_unknown_count.to_i
   end
 
   def mortality_rate
-    return 0 if initial_quantity.to_i <= 0
+    return 0.0 if initial_duck_count.to_i <= 0
 
-    total_dead.to_f / initial_quantity
+    ducks_dead.to_f / initial_duck_count
   end
 
-  def purchase_cost_total
-    initial_quantity.to_i * purchase_price_per_head.to_f
+  def stock_cost_total
+    initial_duck_count.to_i * purchase_price_per_duck.to_f
   end
 
   def feed_cost_total
@@ -57,10 +59,16 @@ class Batch < ApplicationRecord
   end
 
   def direct_cost_total
-    purchase_cost_total + feed_cost_total + direct_expenses_total
+    stock_cost_total + feed_cost_total + direct_expenses_total
   end
 
   def gross_profit
     revenue_total - direct_cost_total
+  end
+
+  def cost_per_duck
+    return 0.0 if initial_duck_count.to_i <= 0
+
+    direct_cost_total / initial_duck_count
   end
 end
