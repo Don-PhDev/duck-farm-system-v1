@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_160558) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_005351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_160558) do
 
   create_table "expenses", force: :cascade do |t|
     t.decimal "amount"
-    t.bigint "batch_id", null: false
+    t.bigint "batch_id"
     t.string "category"
     t.datetime "created_at", null: false
     t.date "date"
@@ -92,10 +92,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_160558) do
     t.datetime "created_at", null: false
     t.date "date"
     t.integer "duck_count"
-    t.integer "female_count"
-    t.integer "male_count"
+    t.integer "estimated_female_count"
+    t.integer "estimated_male_count"
+    t.integer "estimated_unknown_count"
     t.text "notes"
-    t.integer "unknown_count"
     t.datetime "updated_at", null: false
     t.index ["batch_id"], name: "index_mortality_logs_on_batch_id"
     t.index ["date"], name: "index_mortality_logs_on_date"
