@@ -1,2 +1,10 @@
-<h1>Batches#new</h1>
-<p>Find me in app/views/batches/new.html.erb</p>
+<% content_for :title, "New Batch" %>
+
+<div class="max-w-4xl">
+  <h1 class="text-3xl font-bold mb-2">New Batch</h1>
+  <p class="text-slate-600 mb-6">Create a new duck batch record.</p>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+    <%= render "form", batch: @batch %>
+  </div>
+</div>

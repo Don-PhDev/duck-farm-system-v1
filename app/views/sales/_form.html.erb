@@ -1,0 +1,91 @@
+<%= form_with model: sale, class: "space-y-6" do |form| %>
+  <% if sale.errors.any? %>
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-4">
+      <h2 class="font-semibold text-red-800 mb-2">
+        <%= pluralize(sale.errors.count, "error") %> prevented this sale from being saved:
+      </h2>
+      <ul class="list-disc pl-5 text-red-700 space-y-1">
+        <% sale.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">Sale Information</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <%= form.label :sale_date, class: "block text-sm font-medium mb-2" %>
+        <%= form.date_field :sale_date, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+      </div>
+
+      <div>
+        <%= form.label :payment_method, class: "block text-sm font-medium mb-2" %>
+        <%= form.select :payment_method, Sale::PAYMENT_METHODS, { prompt: "Select payment method" }, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+      </div>
+
+      <div>
+        <%= form.label :customer_name, class: "block text-sm font-medium mb-2" %>
+        <%= form.text_field :customer_name, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+      </div>
+
+      <div>
+        <%= form.label :reference_no, class: "block text-sm font-medium mb-2" %>
+        <%= form.text_field :reference_no, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <%= form.label :notes, class: "block text-sm font-medium mb-2" %>
+      <%= form.text_area :notes, rows: 3, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold">Sale Items</h2>
+      <p class="text-sm text-slate-500">For MVP, start with one item per sale. You can add more rows later.</p>
+    </div>
+
+    <div class="space-y-6">
+      <%= form.fields_for :sale_items do |item_fields| %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl border border-slate-200 p-4">
+          <div>
+            <%= item_fields.label :batch_id, "Batch", class: "block text-sm font-medium mb-2" %>
+            <%= item_fields.collection_select :batch_id, @batches, :id, :batch_code, { prompt: "Select batch" }, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+          </div>
+
+          <div>
+            <%= item_fields.label :sale_unit, class: "block text-sm font-medium mb-2" %>
+            <%= item_fields.select :sale_unit, SaleItem::SALE_UNITS, {}, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+          </div>
+
+          <div>
+            <%= item_fields.label :duck_count, class: "block text-sm font-medium mb-2" %>
+            <%= item_fields.number_field :duck_count, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+          </div>
+
+          <div>
+            <%= item_fields.label :weight_kg, class: "block text-sm font-medium mb-2" %>
+            <%= item_fields.number_field :weight_kg, step: 0.01, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+          </div>
+
+          <div class="md:col-span-2">
+            <%= item_fields.label :price_per_duck, "Unit Price", class: "block text-sm font-medium mb-2" %>
+            <%= item_fields.number_field :price_per_duck, step: 0.01, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+            <p class="mt-2 text-sm text-slate-500">
+              For head sales, this is price per duck. For kg sales, this is price per kg.
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit "Save Sale", class: "rounded-xl bg-slate-900 px-5 py-2.5 text-white font-medium hover:bg-slate-800" %>
+    <%= link_to "Cancel", sales_path, class: "rounded-xl border border-slate-300 px-5 py-2.5 font-medium hover:bg-slate-100" %>
+  </div>
+<% end %>

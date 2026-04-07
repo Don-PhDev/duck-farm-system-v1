@@ -13,7 +13,12 @@ class Batch < ApplicationRecord
   validates :purchase_price_per_duck, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   def ducks_sold
-    sale_items.sum(:duck_count)
+    #sale_items.sum(:duck_count)
+    sale_items.where(sale_unit: "head").sum(:duck_count)
+  end
+
+  def total_weight_sold
+    sale_items.where(sale_unit: "kg").sum(:weight_kg)
   end
 
   def ducks_dead

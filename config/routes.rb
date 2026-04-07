@@ -3,10 +3,11 @@ Rails.application.routes.draw do
 
   resources :batches
   resources :sales, only: [:index, :show, :new, :create]
-  resources :feed_purchases, only: [:index, :new, :create]
-  resources :feed_consumptions, only: [:index, :new, :create]
-  resources :expenses, only: [:index, :new, :create]
-  resources :mortality_logs, only: [:index, :new, :create]
+  resources :feed_products
+  resources :feed_purchases, only: [:index, :show, :new, :create]
+  resources :feed_consumptions, only: [:index, :show, :new, :create]
+  resources :expenses, only: [:index, :show, :new, :create]
+  resources :mortality_logs, only: [:index, :show, :new, :create]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -20,4 +21,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get "dashboard", to: "dashboard#index"
 end
