@@ -1,23 +1,28 @@
-<h1>Dashboard</h1>
+<% content_for :title, "Dashboard" %>
 
-<nav aria-label="Main navigation">
-  <ol class="dashboard-menu">
-    <li><%= link_to "Batches", batches_path %></li>
-    <li><%= link_to "Sales", sales_path %></li>
-    <li>Feed Inventory</li>
-    <li><%= link_to "Feed Consumption", feed_consumptions_path %></li>
-    <li><%= link_to "Expenses", expenses_path %></li>
-    <li><%= link_to "Mortality", mortality_logs_path %></li>
+<div class="mb-8">
+  <h1 class="text-3xl font-bold">Dashboard</h1>
+  <p class="text-slate-600 mt-1">Quick overview of farm activity and profitability.</p>
+</div>
 
-    <li>
-      <%= link_to "Reports", "#" %>
-      <ul class="submenu">
-        <li>Batch Profitability</li>
-        <li>Mortality Report</li>
-        <li>Feed Report</li>
-        <li>Expense Report</li>
-        <li>Farm Profit & Loss</li>
-      </ul>
-    </li>
-  </ol>
-</nav>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Total Batches</p>
+    <p class="mt-2 text-2xl font-bold"><%= @batch_count %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Active Batches</p>
+    <p class="mt-2 text-2xl font-bold"><%= @active_batches.count %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Remaining Ducks</p>
+    <p class="mt-2 text-2xl font-bold"><%= @total_remaining_ducks %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Gross Profit</p>
+    <p class="mt-2 text-2xl font-bold">₱<%= number_with_precision(@total_gross_profit, precision: 2, delimiter: ",") %></p>
+  </div>
+</div>

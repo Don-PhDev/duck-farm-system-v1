@@ -1,2 +1,114 @@
-<h1>Batches#show</h1>
-<p>Find me in app/views/batches/show.html.erb</p>
+<% content_for :title, @batch.batch_code %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-3xl font-bold"><%= @batch.batch_code %></h1>
+    <p class="text-slate-600 mt-1">Batch details, stock status, and profitability.</p>
+  </div>
+
+  <div class="flex gap-3">
+    <%= link_to "Edit Batch", edit_batch_path(@batch), class: "rounded-xl border border-slate-300 px-4 py-2 font-medium hover:bg-slate-100" %>
+    <%= link_to "Back to Batches", batches_path, class: "rounded-xl bg-slate-900 px-4 py-2 text-white font-medium hover:bg-slate-800" %>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Initial Ducks</p>
+    <p class="mt-2 text-2xl font-bold"><%= @batch.initial_duck_count %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Remaining Ducks</p>
+    <p class="mt-2 text-2xl font-bold"><%= @batch.remaining_ducks %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Mortality Rate</p>
+    <p class="mt-2 text-2xl font-bold"><%= number_to_percentage(@batch.mortality_rate * 100, precision: 2) %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Gross Profit</p>
+    <p class="mt-2 text-2xl font-bold">₱<%= number_with_precision(@batch.gross_profit, precision: 2, delimiter: ",") %></p>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">Batch Information</h2>
+
+    <dl class="space-y-3">
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Duck Type</dt>
+        <dd class="font-medium"><%= @batch.duck_type %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Arrival Date</dt>
+        <dd class="font-medium"><%= @batch.arrival_date&.strftime("%B %d, %Y") %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Estimated Female</dt>
+        <dd class="font-medium"><%= @batch.female_count %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Estimated Male</dt>
+        <dd class="font-medium"><%= @batch.male_count %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Estimated Unknown</dt>
+        <dd class="font-medium"><%= @batch.unknown_count %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Purchase Price / Duck</dt>
+        <dd class="font-medium">₱<%= number_with_precision(@batch.purchase_price_per_duck, precision: 2, delimiter: ",") %></dd>
+      </div>
+
+      <div class="pt-3 border-t border-slate-200">
+        <dt class="text-slate-500 mb-1">Notes</dt>
+        <dd class="text-slate-800"><%= @batch.notes.presence || "No notes provided." %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">Financial Summary</h2>
+
+    <dl class="space-y-3">
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Revenue</dt>
+        <dd class="font-medium">₱<%= number_with_precision(@batch.revenue_total, precision: 2, delimiter: ",") %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Stock Cost</dt>
+        <dd class="font-medium">₱<%= number_with_precision(@batch.stock_cost_total, precision: 2, delimiter: ",") %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Feed Cost</dt>
+        <dd class="font-medium">₱<%= number_with_precision(@batch.feed_cost_total, precision: 2, delimiter: ",") %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-500">Direct Expenses</dt>
+        <dd class="font-medium">₱<%= number_with_precision(@batch.direct_expenses_total, precision: 2, delimiter: ",") %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4 border-t border-slate-200 pt-3">
+        <dt class="text-slate-800 font-semibold">Direct Cost Total</dt>
+        <dd class="font-semibold">₱<%= number_with_precision(@batch.direct_cost_total, precision: 2, delimiter: ",") %></dd>
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <dt class="text-slate-800 font-semibold">Cost per Duck</dt>
+        <dd class="font-semibold">₱<%= number_with_precision(@batch.cost_per_duck, precision: 2, delimiter: ",") %></dd>
+      </div>
+    </dl>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<%= form_with model: batch, class: "space-y-6" do |form| %>
+  <% if batch.errors.any? %>
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-4">
+      <h2 class="font-semibold text-red-800 mb-2">
+        <%= pluralize(batch.errors.count, "error") %> prevented this batch from being saved:
+      </h2>
+      <ul class="list-disc pl-5 text-red-700 space-y-1">
+        <% batch.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= form.label :batch_code, class: "block text-sm font-medium mb-2" %>
+      <%= form.text_field :batch_code, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :duck_type, class: "block text-sm font-medium mb-2" %>
+      <%= form.select :duck_type, Batch::DUCK_TYPES, { prompt: "Select duck type" }, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :arrival_date, class: "block text-sm font-medium mb-2" %>
+      <%= form.date_field :arrival_date, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :initial_duck_count, class: "block text-sm font-medium mb-2" %>
+      <%= form.number_field :initial_duck_count, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :estimated_female_count, class: "block text-sm font-medium mb-2" %>
+      <%= form.number_field :estimated_female_count, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :estimated_male_count, class: "block text-sm font-medium mb-2" %>
+      <%= form.number_field :estimated_male_count, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :estimated_unknown_count, class: "block text-sm font-medium mb-2" %>
+      <%= form.number_field :estimated_unknown_count, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+
+    <div>
+      <%= form.label :purchase_price_per_duck, class: "block text-sm font-medium mb-2" %>
+      <%= form.number_field :purchase_price_per_duck, step: 0.01, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :notes, class: "block text-sm font-medium mb-2" %>
+    <%= form.text_area :notes, rows: 4, class: "w-full rounded-xl border border-slate-300 px-4 py-2" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit class: "rounded-xl bg-slate-900 px-5 py-2.5 text-white font-medium hover:bg-slate-800" %>
+    <%= link_to "Cancel", batches_path, class: "rounded-xl border border-slate-300 px-5 py-2.5 font-medium hover:bg-slate-100" %>
+  </div>
+<% end %>
