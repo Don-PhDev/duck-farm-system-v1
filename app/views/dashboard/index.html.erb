@@ -2,16 +2,15 @@
 
 <nav aria-label="Main navigation">
   <ol class="dashboard-menu">
-    <li>Dashboard</li>
-    <li>Batches</li>
-    <li>Sales</li>
+    <li><%= link_to "Batches", batches_path %></li>
+    <li><%= link_to "Sales", sales_path %></li>
     <li>Feed Inventory</li>
-    <li>Feed Consumption</li>
-    <li>Expenses</li>
-    <li>Mortality</li>
+    <li><%= link_to "Feed Consumption", feed_consumptions_path %></li>
+    <li><%= link_to "Expenses", expenses_path %></li>
+    <li><%= link_to "Mortality", mortality_logs_path %></li>
 
     <li>
-      Reports
+      <%= link_to "Reports", "#" %>
       <ul class="submenu">
         <li>Batch Profitability</li>
         <li>Mortality Report</li>
@@ -20,9 +19,5 @@
         <li>Farm Profit & Loss</li>
       </ul>
     </li>
-
-    <li>Settings</li>
   </ol>
 </nav>
-
-<p>Find me in app/views/dashboard/index.html.erb</p>
