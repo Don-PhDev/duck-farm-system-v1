@@ -11,18 +11,48 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%# Enable PWA manifest for installable apps later if needed %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-slate-50 text-slate-900">
+    <div class="min-h-screen flex">
+      <aside class="w-64 bg-slate-900 text-white p-6 hidden md:block">
+        <h1 class="text-xl font-bold mb-6">Duck Farm System</h1>
+
+        <nav class="space-y-2">
+          <%= link_to "Dashboard", dashboard_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Batches", batches_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Sales", sales_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Feed Products", feed_products_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Feed Purchases", feed_purchases_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Feed Consumption", feed_consumptions_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Expenses", expenses_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+          <%= link_to "Mortality Logs", mortality_logs_path, class: "block rounded-lg px-3 py-2 hover:bg-slate-800" %>
+        </nav>
+      </aside>
+
+      <main class="flex-1 p-6 md:p-10">
+        <% if notice.present? %>
+          <div class="mb-6 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-800">
+            <%= notice %>
+          </div>
+        <% end %>
+
+        <% if alert.present? %>
+          <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">
+            <%= alert %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>
