@@ -1,2 +1,8 @@
-<h1>Sales#new</h1>
-<p>Find me in app/views/sales/new.html.erb</p>
+<% content_for :title, "New Sale" %>
+
+<div class="max-w-5xl">
+  <h1 class="text-3xl font-bold mb-2">New Sale</h1>
+  <p class="text-slate-600 mb-6">Record a new duck sale transaction.</p>
+
+  <%= render "form", sale: @sale %>
+</div>

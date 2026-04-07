@@ -1,2 +1,43 @@
-<h1>Sales#index</h1>
-<p>Find me in app/views/sales/index.html.erb</p>
+<% content_for :title, "Sales" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-3xl font-bold">Sales</h1>
+    <p class="text-slate-600 mt-1">Record and review duck sales transactions.</p>
+  </div>
+
+  <%= link_to "New Sale", new_sale_path, class: "rounded-xl bg-slate-900 px-4 py-2 text-white font-medium hover:bg-slate-800" %>
+</div>
+
+<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+  <table class="min-w-full divide-y divide-slate-200">
+    <thead class="bg-slate-100">
+      <tr>
+        <th class="px-4 py-3 text-left text-sm font-semibold">Date</th>
+        <th class="px-4 py-3 text-left text-sm font-semibold">Customer</th>
+        <th class="px-4 py-3 text-left text-sm font-semibold">Payment</th>
+        <th class="px-4 py-3 text-left text-sm font-semibold">Reference</th>
+        <th class="px-4 py-3 text-right text-sm font-semibold">Items</th>
+        <th class="px-4 py-3 text-right text-sm font-semibold">Total</th>
+        <th class="px-4 py-3 text-right text-sm font-semibold"></th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-slate-100">
+      <% @sales.each do |sale| %>
+        <% total = sale.sale_items.sum(&:total_amount) %>
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3"><%= sale.sale_date&.strftime("%b %d, %Y") %></td>
+          <td class="px-4 py-3 font-medium"><%= sale.customer_name.presence || "Walk-in / Unspecified" %></td>
+          <td class="px-4 py-3"><%= sale.payment_method.presence || "-" %></td>
+          <td class="px-4 py-3"><%= sale.reference_no.presence || "-" %></td>
+          <td class="px-4 py-3 text-right"><%= sale.sale_items.size %></td>
+          <td class="px-4 py-3 text-right font-semibold">₱<%= number_with_precision(total, precision: 2, delimiter: ",") %></td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "View", sale_path(sale), class: "text-slate-700 hover:text-slate-900 font-medium" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

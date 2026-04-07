@@ -1,2 +1,80 @@
-<h1>Sales#show</h1>
-<p>Find me in app/views/sales/show.html.erb</p>
+<% content_for :title, "Sale #{@sale.reference_no.presence || @sale.id}" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-3xl font-bold">Sale Details</h1>
+    <p class="text-slate-600 mt-1">Review transaction information and sold items.</p>
+  </div>
+
+  <%= link_to "Back to Sales", sales_path, class: "rounded-xl bg-slate-900 px-4 py-2 text-white font-medium hover:bg-slate-800" %>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Sale Date</p>
+    <p class="mt-2 text-xl font-bold"><%= @sale.sale_date&.strftime("%b %d, %Y") %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Customer</p>
+    <p class="mt-2 text-xl font-bold"><%= @sale.customer_name.presence || "Walk-in / Unspecified" %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Payment Method</p>
+    <p class="mt-2 text-xl font-bold"><%= @sale.payment_method.presence || "-" %></p>
+  </div>
+
+  <div class="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
+    <p class="text-sm text-slate-500">Reference No.</p>
+    <p class="mt-2 text-xl font-bold"><%= @sale.reference_no.presence || "-" %></p>
+  </div>
+</div>
+
+<div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm mb-6">
+  <h2 class="text-xl font-semibold mb-4">Sale Items</h2>
+
+  <div class="overflow-hidden rounded-xl border border-slate-200">
+    <table class="min-w-full divide-y divide-slate-200">
+      <thead class="bg-slate-100">
+        <tr>
+          <th class="px-4 py-3 text-left text-sm font-semibold">Batch</th>
+          <th class="px-4 py-3 text-left text-sm font-semibold">Sale Unit</th>
+          <th class="px-4 py-3 text-right text-sm font-semibold">Duck Count</th>
+          <th class="px-4 py-3 text-right text-sm font-semibold">Weight (kg)</th>
+          <th class="px-4 py-3 text-right text-sm font-semibold">Price</th>
+          <th class="px-4 py-3 text-right text-sm font-semibold">Age at Sale</th>
+          <th class="px-4 py-3 text-right text-sm font-semibold">Total</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-100">
+        <% @sale.sale_items.each do |item| %>
+          <tr>
+            <td class="px-4 py-3 font-medium"><%= item.batch.batch_code %></td>
+            <td class="px-4 py-3"><%= item.sale_unit %></td>
+            <td class="px-4 py-3 text-right"><%= item.duck_count.presence || "-" %></td>
+            <td class="px-4 py-3 text-right"><%= item.weight_kg.presence || "-" %></td>
+            <td class="px-4 py-3 text-right">₱<%= number_with_precision(item.price_per_duck, precision: 2, delimiter: ",") %></td>
+            <td class="px-4 py-3 text-right"><%= item.age_at_sale_days %> days</td>
+            <td class="px-4 py-3 text-right font-semibold">₱<%= number_with_precision(item.total_amount, precision: 2, delimiter: ",") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+
+      <tfoot class="bg-slate-50">
+        <tr>
+          <td colspan="6" class="px-4 py-3 text-right font-semibold">Grand Total</td>
+          <td class="px-4 py-3 text-right font-bold">
+            ₱<%= number_with_precision(@sale.sale_items.sum(&:total_amount), precision: 2, delimiter: ",") %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+  <h2 class="text-xl font-semibold mb-3">Notes</h2>
+  <p class="text-slate-700"><%= @sale.notes.presence || "No notes provided." %></p>
+</div>
